@@ -6,24 +6,24 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Base64;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
-@Table(name = "mpa_workload_image_text_r4")
-public class MpaWrkloadImageTextR4 {
+@ToString
+@Table(name = "mpa_workload_image_text_record_r4")
+public class MpaWorkloadImageTextRecordR4 {
     @Id
-    @Column(name = "workload_img_text_r4_id",length = 50)
-    private String workloadId;
-    @Column(name = "img_text",length = 5000)
-    private String imageText;
-    @Lob
-    @Column(name = "workload_img")
-    private byte[] workingImage;
+    @Column(name = "",length = 50)
+    private String workLoadUnitTextR4Id;
+    @ManyToOne
+    @JoinColumn(name = "workload_img_text_r4_id")
+    private MpaWrkloadImageTextR4 workloadImageText;
+   @Column(name = "record_text",length = 5000)
+    private String recordText;
+   @Column(name = "error_msg",length = 5000)
+    private String errorMsg;
     @Column(name = "created_by")
     private Integer createdBy;
     @Column(name = "created_date")
@@ -36,7 +36,4 @@ public class MpaWrkloadImageTextR4 {
     private Integer deletedBy;
     @Column(name = "deleted_date")
     private String deletedDate;
-
-    @OneToMany( fetch = FetchType.LAZY,mappedBy = "workloadImageText")
-    private List<MpaWorkloadImageTextRecordR4> records;
 }

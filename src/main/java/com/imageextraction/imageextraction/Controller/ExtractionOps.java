@@ -1,6 +1,8 @@
 package com.imageextraction.imageextraction.Controller;
 
+import com.imageextraction.imageextraction.Entity.MpaWrkloadImageTextR4;
 import com.imageextraction.imageextraction.Entity.RawData;
+import com.imageextraction.imageextraction.Repo.MpaWrkloadImageTextR4Repo;
 import com.imageextraction.imageextraction.Repo.RawDataRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,17 +18,50 @@ import java.util.List;
 public class ExtractionOps {
     @Autowired
     private RawDataRepo repo;
+    @Autowired
+    private MpaWrkloadImageTextR4Repo mainrepo;
     @GetMapping("/extractusers")
-    public List<String[]> getAllUsersData(){
+    public List<List<String>> getAllUsersData(){
         List<String[]> result=new ArrayList<>();
-        List<RawData> alldata=repo.findAll();
-
-        for (RawData d:alldata) {
-            String pagedata=d.getData();
-            String regex = "((([a-z A-Z 0-9])*?)(Ms|Mrs|Mr|Dr)+)";
+        List<List<String>> result1=new ArrayList<>();
+        List<MpaWrkloadImageTextR4> alldata=mainrepo.findAll();
+        for (MpaWrkloadImageTextR4 d:alldata) {
+            String pagedata=d.getImageText();
+            String regex = "(?=(([a-z A-Z 0-9])*?)(Ms|Mrs|Mr|Dr))";
             String [] str = pagedata.split(regex);
-            result.add(str);
+            List<String> finalResult=new ArrayList<>();
+            String temp="";
+            boolean isContinue=false;
+
+            for (String s:str) {
+                try {
+                    Integer.parseInt(s);
+                    temp+=s;
+                }catch (Exception e){
+                    if((s.length()==1 || s.equals(" ")) ){
+                        temp+=s;
+                    }else {
+                        String ss=temp;
+                        if(ss.trim().length()==0){
+                            temp="";
+                            if(isContinue){
+                                String last=finalResult.get(finalResult.size()-1);
+                                last=last+" "+s;
+                                finalResult.set(finalResult.size()-1,last);
+                            }else{
+                                finalResult.add(s);
+                            }
+                        }else{
+                            finalResult.add(temp+" "+s);
+                            isContinue=true;
+                            temp="";
+                        }
+                    }
+
+                }
+            }
+            result1.add(finalResult);
         }
-        return result;
+        return result1;
     }
 }

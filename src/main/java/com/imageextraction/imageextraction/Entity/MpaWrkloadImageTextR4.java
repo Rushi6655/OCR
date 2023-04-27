@@ -20,7 +20,7 @@ public class MpaWrkloadImageTextR4 {
     private String imageText;
     @Lob
     @Column(name = "workload_img")
-    private String workingImage;
+    private byte[] workingImage;
     @Column(name = "created_by")
     private Integer createdBy;
     @Column(name = "created_date")

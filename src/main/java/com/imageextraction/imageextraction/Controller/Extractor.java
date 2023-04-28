@@ -36,10 +36,7 @@ public class Extractor {
                 if (file.isFile()) {
                     System.out.println("--");
                   BufferedImage image = ImageIO.read(file);
-//                    System.out.println(image.toString());
-//                    BufferedImage crop = image.getSubimage(1,1, 1, 1);
                     ImageIO.write(image, "jpg", file);
-                   // String path="C:\\Users\\Hrushikesh Shelke\\Desktop\\Image Extraction\\Workload0003.png";
                     String data=tesseract.doOCR(file);
                     if(data.length()>0){
                         MpaWrkloadImageTextR4 row=new MpaWrkloadImageTextR4();
@@ -47,7 +44,6 @@ public class Extractor {
                         String id=baseSerial+(file.getName().replace("Workload",""));
                         row.setWorkloadId(id.replace(".jpg",""));
                         FileInputStream fl = new FileInputStream(file);
-                        //Cnverting Image file to byte[]
                         byte[] arr = new byte[(int)file.length()];
                         fl.read(arr);
                         fl.close();

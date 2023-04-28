@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 @Table(name = "mpa_workload_image_text_record_r4")
 public class MpaWorkloadImageTextRecordR4 {
     @Id

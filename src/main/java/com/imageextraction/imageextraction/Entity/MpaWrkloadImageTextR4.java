@@ -12,7 +12,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @Table(name = "mpa_workload_image_text_r4")
 public class MpaWrkloadImageTextR4 {
